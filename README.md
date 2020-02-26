@@ -20,6 +20,22 @@ Look up the browser if it doesn't pop up.
 4. `antd` for some UI stuff.
 5. `axios` for requests.
 
+## Structure
+
+Most important stuff:
+
+```
+src/
+  components/
+    layouts/      - All content layout related stuff.
+      elements/   - Render elements for specific Content-types.
+    parts/        - Parts of the application like top header etc.
+  actions.ts      - Actions
+  reducer.ts      - General reducer
+  interfaces.ts   - Currently holdes IArticle which should be generic IContent prepared for other content types
+```
+
+
 ## Comments
 1. I did it as the `Article` is the only Content type. What would be good is to build common interface/components for Content-type (I see that they are kind of Element instances with elementType and value(s) + additional params. Check `./src/interfaces`), and then build rendering on it.
 2. Retrived jsons could be validated by interface with type guard (https://www.typescriptlang.org/docs/handbook/advanced-types.html#type-guards-and-differentiating-types).
