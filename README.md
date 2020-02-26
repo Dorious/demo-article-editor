@@ -33,6 +33,7 @@ src/
   actions.ts      - Actions
   reducer.ts      - General reducer
   interfaces.ts   - Currently holdes IArticle which should be generic IContent prepared for other content types
+  themes.ts       - Themes declaration
 ```
 
 
