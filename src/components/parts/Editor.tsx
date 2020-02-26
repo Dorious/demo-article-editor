@@ -1,14 +1,16 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import styled, { ThemeProps } from 'styled-components';
 import { InfinitySpinner } from './Spinner';
 import { hex2rgba } from '../../utils';
 import { ITheme } from '../../themes';
+import { IArticle } from '../../interfaces';
 import { AppContext } from '../../App';
 import layouts from '../layouts';
 import { Input, Icon, Button } from 'antd';
+import { setDocumentTitle } from '../../actions';
 
 export interface IArticleProps {
-  article: any;
+  article: IArticle;
   editMode?: boolean;
 }
 
@@ -35,6 +37,14 @@ export const Article: React.FC<IArticleProps> = React.memo(({article, editMode})
   let {
     selectedLayouts
   } = article;
+
+  useEffect(() => {
+    const edit = editMode ? 'Edit: ' : '';
+    setDocumentTitle(edit + article.name);
+    return () => {
+      setDocumentTitle();
+    }
+  }, [article, editMode]);
 
   return (
     <>

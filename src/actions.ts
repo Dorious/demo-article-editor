@@ -2,6 +2,7 @@ import axios, { AxiosResponse } from 'axios';
 import queryString from 'query-string';
 import { IArticle } from './interfaces';
 
+const DEFAULT_TITLE = 'Demo Article Editor';
 const API_KEY = '859f2008-a40a-4b92-afd0-24bb44d10124';
 export const API_BASE = `https://my12.digitalexperience.ibm.com/api/${API_KEY}`;
 const API_PUBLISHED = `${API_BASE}/delivery/v1/search?q=*:*&defType=edismax&indent=on\
@@ -20,6 +21,12 @@ export interface BaseAction {
   type: string;
   payload?: any;
 }
+
+export const setDocumentTitle = (title?:string) => {
+  let newTitle = title ? `${title} > ${DEFAULT_TITLE}` : DEFAULT_TITLE;
+  if(document) document.title = newTitle;
+  return newTitle;
+};
 
 export const updateRouter = (payload: any): BaseAction => {
   payload.location.qs = queryString.parse(payload.location.search);
