@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
-import styled from 'styled-components';
-import Spinner from '../Spinner';
-import { AppContext } from '../../../App';
+import styled, { CSSProperties } from 'styled-components';
+import Spinner from './Spinner';
+import { AppContext } from '../../App';
 import { Switch, Button, Dropdown, Menu, Icon } from 'antd';
 import { ClickParam } from 'antd/lib/menu';
 
@@ -69,17 +69,26 @@ export interface IBreadcrumb {
   articles: any[];
   loadingArticles: boolean;
   onMenuClick: (param: ClickParam) => void;
+  id?: string;
 }
 
 export const Breadcrumb: React.FC<IBreadcrumb> = React.memo(({
-  articles, loadingArticles, onMenuClick
+  articles, loadingArticles, onMenuClick, id
 }) => {
   if(loadingArticles === false && articles.length) {
     const menu = (
       <Menu onClick={onMenuClick}>
         {articles.map((article: any, index: number) => {
-          return (
-            <Menu.Item key={index} data-article={article}>
+          const style: CSSProperties = id === article.id ? {
+            fontWeight: 'bold'
+          } : {};
+
+          return ( 
+            <Menu.Item 
+              key={index} 
+              data-article={article}
+              style={style}
+            >
               <Icon type="file-word" />
               {article.name}
             </Menu.Item>
@@ -104,7 +113,7 @@ export const Breadcrumb: React.FC<IBreadcrumb> = React.memo(({
 
 const Header: React.FC = () => {
   const [{
-    theme, articles, loadingArticles, router
+    theme, editMode, articles, loadingArticles, router, article
   }, dispatch] = useContext(AppContext);
 
   const light = theme === 'light';
@@ -112,20 +121,33 @@ const Header: React.FC = () => {
   return <Container>
     <Logo 
       title="The best React editor on earth!"
+      href="/"
+      onClick={(e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+        e.preventDefault();
+        router.push('/');
+      }}
     />
     <div>
       <CurrentDoc>
         <Breadcrumb 
           articles={articles} 
           loadingArticles={loadingArticles} 
+          id={router ? router.location.qs.id : null}
           onMenuClick={(info) => {
             let article = info.item.props['data-article'];
             if(router) router.push(`/?id=${article.id}`);
           }}
         />
       </CurrentDoc>
+      {article ? <CurrentDoc>{article.name}</CurrentDoc> : null}
     </div>
     <Right>
+      Edit:&nbsp;&nbsp;<Switch 
+        checked={editMode}
+        onChange={() => dispatch({
+          type: 'toggleEdit'
+        })}
+      />&nbsp;&nbsp;&nbsp;
       Light:&nbsp;&nbsp;<Switch 
         checked={light}
         onChange={(checked: boolean) => dispatch({

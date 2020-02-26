@@ -27,10 +27,10 @@ export const usePrevious = (value: any) => {
 
 export const saveLocalState = (state: IAppState) => {
   let newState: any = {...state, router: null};
-  return localStorage.setItem(APP_LOCAL_STORAGE, JSON.stringify(newState))
+  return sessionStorage.setItem(APP_LOCAL_STORAGE, JSON.stringify(newState))
 }
 
 export const getLocalState = (initialState: IAppState): IAppState => {
-  let state = localStorage.getItem(APP_LOCAL_STORAGE);
+  let state = sessionStorage.getItem(APP_LOCAL_STORAGE);
   return state ? JSON.parse(state) : initialState;
 }

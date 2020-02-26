@@ -30,6 +30,15 @@ const GlobalStyle = createGlobalStyle`
     color: ${(props: ThemeProps<ITheme>) => props.theme.bodyColor};
     transition: color .25s ease;
   }
+
+  h1, h2, h3, h4, h5, h6 {
+    color: ${(props: ThemeProps<ITheme>) => props.theme.bodyColor};
+    transition: color .25s ease;
+  }
+
+  *[contenteditable="true"] {
+    outline: 1px solid #e1e1e1;
+  }
 `;
 
 const defaultContext: [any, React.Dispatch<BaseAction | Promise<any>>] = [initialState, (action) => null];
@@ -61,12 +70,15 @@ function App() {
   const [state, dispatch] = useContext(AppContext);
   let prevRouter: any = usePrevious(state.router);
 
+  /**
+   * This should be refactored
+   */
   useEffect(() => {
     // Setup the router update
     if(!state.router) {
       console.log('Setting up the router...');
 
-      dispatch(updateRouter(router));
+      dispatch(updateRouter({...router}));
 
       router.listen(() => {
         dispatch(updateRouter({...router}));
@@ -74,8 +86,8 @@ function App() {
     };
 
     // If no id set, set it
-    if(state.router && !state.router.location.qs.id && !prevRouter)
-      router.replace(`/?id=${INITIAL_ARTICLE}`);
+    if(state.router && !state.router.location.qs.id)
+      state.router.replace(`/?id=${INITIAL_ARTICLE}`);
 
     // Load list of published articles
     if(state.loadingArticles === undefined)

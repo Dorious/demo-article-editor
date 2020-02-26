@@ -2,6 +2,7 @@ import { getLocalState } from "./utils";
 
 export interface IAppState {
   theme: string;
+  editMode: boolean;
   router: any;
   article: object | null;
   articles: object[];
@@ -12,6 +13,7 @@ export interface IAppState {
 
 export let initialState: IAppState = {
   theme: 'light',
+  editMode: false,
   router: null,
   article: null,
   articles: [],
@@ -19,7 +21,7 @@ export let initialState: IAppState = {
   loadingArticle: undefined,
 }
 
-initialState = getLocalState(initialState); 
+//initialState = getLocalState(initialState); 
 
 export default (state: any, action: any) => {
   switch (action.type) {
@@ -33,6 +35,12 @@ export default (state: any, action: any) => {
       return {
         ...state,
         theme: action.payload
+      }
+    
+    case 'toggleEdit':
+      return {
+        ...state,
+        editMode: !state.editMode
       }
     
     case 'setLoadingArticles':

@@ -1,18 +1,26 @@
 import React, { useContext, ReactNode } from 'react';
 import styled, { ThemeProps } from 'styled-components';
-import { InfinitySpinner } from '../Spinner';
-import { hex2rgba } from '../../../utils';
-import { ITheme } from '../../../themes';
-import { AppContext } from '../../../App';
-import layouts from '../../layouts';
+import { InfinitySpinner } from './Spinner';
+import { hex2rgba } from '../../utils';
+import { ITheme } from '../../themes';
+import { AppContext } from '../../App';
+import layouts from '../layouts';
+import { Input, Icon, Button } from 'antd';
 
 export interface IArticleProps {
   article: any;
+  editMode?: boolean;
 }
 
 export const ArticleInfo = styled.section`
-
-`
+  position: absolute;
+  min-width: 60%;
+  background: ${(props: ThemeProps<ITheme>) => props.theme.paperBackground};
+  padding: 10px 10px 10px 20px;
+  top: -75px;
+  left: 30px;
+  box-shadow: 0 10px 20px rgba(0,0,0,.15);
+`;
 
 const selectLayout = (id: string) => {
   return layouts[id];
@@ -23,18 +31,30 @@ const getLayout = (layout: any) => {
   return renderLayout.render;
 }
 
-export const Article: React.FC<IArticleProps> = React.memo(({article}) => {
+export const Article: React.FC<IArticleProps> = React.memo(({article, editMode}) => {
   let {
     selectedLayouts
   } = article;
 
   return (
     <>
-      <ArticleInfo role="">
-        Grr
-      </ArticleInfo>
+      {editMode ? <ArticleInfo>
+        <Icon type="paper-clip" style={{
+          fontSize: '40px',
+          transform: 'rotate(-90deg)',
+          position: 'absolute',
+          zIndex: 1,
+          top: '32px',
+          left: '-22px',
+        }}/>
+        <Input 
+          defaultValue={article.name} 
+          addonBefore="Article Name" 
+        />
+        <Button>Save</Button>
+      </ArticleInfo> : null}
       <section>
-        {getLayout(selectedLayouts)(article)}
+        {getLayout(selectedLayouts)(article, editMode)}
       </section>
     </>
   )
@@ -45,6 +65,7 @@ const Paper = styled.div`
   box-shadow: 0 10px 30px rgba(0,0,0,.15);
   padding: 30px 30px 150px 30px;
   position: relative;
+  transition: margin-top 0.25s linear;
 
   ::after {
     content: ' ';
@@ -84,16 +105,20 @@ const SpinnerContainer = styled.div`
 
 const Editor: React.FC = () => {
   const [{
-    article, loadingArticle
+    article, loadingArticle, editMode
   }, dispatch] = useContext(AppContext);
 
-  return <Paper>
+  const style = editMode ? {
+    marginTop: '100px'
+  } : {}
+
+  return <Paper style={style}>
     {loadingArticle ? <SpinnerContainer>
       <div>
         <InfinitySpinner color="#008"/>
       </div>
     </SpinnerContainer> : null}
-    {article ? <Article article={article} /> : null}
+    {article ? <Article article={article} editMode={editMode} /> : null}
   </Paper>
 }
 
