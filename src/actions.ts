@@ -1,4 +1,4 @@
-import axios, { AxiosResponse, AxiosError } from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import queryString from 'query-string';
 import { IArticle } from './interfaces';
 

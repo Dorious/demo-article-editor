@@ -107,15 +107,13 @@ function App() {
     }
 
     // React on error
-    if(prevError !== state.pageError) {
-      let hide = message.error(state.pageError.message, 0);
-
-    }
+    if(prevError !== state.pageError)
+      message.error(state.pageError.message, 0);
 
     // Save the state to localStorage
     saveLocalState(state);
     
-  }, [prevRouter, dispatch, state]);
+  }, [prevError, prevRouter, dispatch, state]);
 
   return (
     <ThemeProvider theme={getThemeByName(state.theme)}>

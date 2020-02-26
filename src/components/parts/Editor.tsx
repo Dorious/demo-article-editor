@@ -1,4 +1,4 @@
-import React, { useContext, ReactNode } from 'react';
+import React, { useContext } from 'react';
 import styled, { ThemeProps } from 'styled-components';
 import { InfinitySpinner } from './Spinner';
 import { hex2rgba } from '../../utils';
@@ -106,7 +106,7 @@ const SpinnerContainer = styled.div`
 const Editor: React.FC = () => {
   const [{
     article, loadingArticle, editMode
-  }, dispatch] = useContext(AppContext);
+  }] = useContext(AppContext);
 
   const style = editMode ? {
     marginTop: '100px'

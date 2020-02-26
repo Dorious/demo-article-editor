@@ -29,8 +29,6 @@ const DesignArticleLayout = (article: IArticle, editMode: boolean) => {
     heading, body, author, date, mainImage
   } = elements;
 
-  const dateObj = new Date(date.value);
-
   return (
     <article>
       <ArticleHeader>

@@ -23,7 +23,8 @@ export let initialState: IAppState = {
   showPageError: false,
 }
 
-//initialState = getLocalState(initialState); 
+if(process.env.REACT_APP_USE_LOCAL_STATE)
+  initialState = getLocalState(initialState); 
 
 export default (state: any, action: any) => {
   switch (action.type) {
