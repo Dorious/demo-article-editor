@@ -9,6 +9,7 @@ import { createBrowserHistory } from 'history';
 
 import Editor from './components/parts/Editor';
 import Header from './components/parts/Header';
+import { message } from 'antd';
 
 const INITIAL_ARTICLE='fa9519d5-0363-4b8d-8e1f-627d802c08a8';
 const DEFAULT_THEME='light';
@@ -69,6 +70,7 @@ const getThemeByName = (name: string = DEFAULT_THEME) => {
 function App() {
   const [state, dispatch] = useContext(AppContext);
   let prevRouter: any = usePrevious(state.router);
+  let prevError: any = usePrevious(state.pageError);
 
   /**
    * This should be refactored
@@ -102,6 +104,12 @@ function App() {
       prevRouter.location.key !== state.router.location.key
     ) {
       loadArticle(state.router.location.qs.id, dispatch);
+    }
+
+    // React on error
+    if(prevError !== state.pageError) {
+      let hide = message.error(state.pageError.message, 0);
+
     }
 
     // Save the state to localStorage

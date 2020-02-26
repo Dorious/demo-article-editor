@@ -8,7 +8,8 @@ export interface IAppState {
   articles: object[];
   loadingArticle: boolean;
   loadingArticles: boolean;
-  pageError?: ErrorConstructor;
+  pageError?: string;
+  showPageError?: boolean;
 }
 
 export let initialState: IAppState = {
@@ -19,6 +20,7 @@ export let initialState: IAppState = {
   articles: [],
   loadingArticles: undefined,
   loadingArticle: undefined,
+  showPageError: false,
 }
 
 //initialState = getLocalState(initialState); 
@@ -67,6 +69,19 @@ export default (state: any, action: any) => {
         ...state,
         article: action.payload,
         loadingArticle: false,
+      }
+    
+    case 'errorMessage':
+      return {
+        ...state,
+        pageError: action.payload,
+        showPageError: true,
+      }
+    
+    case 'hideErrorMessage':
+      return {
+        ...state,
+        showPageError: false,
       }
 
     default:

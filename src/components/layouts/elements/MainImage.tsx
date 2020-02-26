@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react';
 import placeholder from '../images/169.png';
 import styled from 'styled-components';
-import { IElement, IMainImageValue, ILeadImage } from '../../../interfaces';
+import { IElement, IMainImageValue } from '../../../interfaces';
 import { API_BASE } from '../../../actions';
 
 export interface IMainImage {
@@ -28,17 +28,23 @@ const Img = styled.img`
 `
 
 const MainImage: React.FC<IMainImage> = ({image}) => {
-  const { leadImage } = image.value;
+  const { leadImage, leadImageCaption } = image.value;
   let imgComponent: ReactNode = null;
 
   if(leadImage && leadImage.renditions) {
     const { lead } = leadImage.renditions;
-    imgComponent = <Img src={API_BASE+lead.source} key={lead.source} />
+    imgComponent = (
+      <Img 
+        src={API_BASE+lead.source} 
+        key={lead.source} 
+        alt={leadImageCaption.value} 
+      />
+    )
   }
 
   return (
     <Placeholder>
-      <img src={placeholder} />
+      <img src={placeholder} alt="" />
       {imgComponent}
     </Placeholder>
   );

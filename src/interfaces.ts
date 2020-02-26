@@ -23,7 +23,8 @@ export interface IMainImageValue {
       card: ILeadImage;
       default: ILeadImage;
     }
-  }; 
+  };
+  leadImageCaption: IElement<string>
 }
 
 export interface IArticle {
