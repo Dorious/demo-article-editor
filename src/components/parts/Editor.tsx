@@ -63,9 +63,9 @@ export const Article: React.FC<IArticleProps> = React.memo(({article, editMode})
         />
         <Button>Save</Button>
       </ArticleInfo> : null}
-      <section>
+      <article>
         {getLayout(selectedLayouts)(article, editMode)}
-      </section>
+      </article>
     </>
   )
 });

@@ -30,7 +30,7 @@ const DesignArticleLayout = (article: IArticle, editMode: boolean) => {
   } = elements;
 
   return (
-    <article>
+    <>
       <ArticleHeader>
         <ArticleInfo>
           <h1 
@@ -48,7 +48,7 @@ const DesignArticleLayout = (article: IArticle, editMode: boolean) => {
         contentEditable={editMode}
         dangerouslySetInnerHTML={{__html: body.values ? body.values.join('') : '<p>Start your text here</p>'}} 
       />
-    </article>
+    </>
   )
 }
 
