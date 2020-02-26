@@ -10,7 +10,7 @@ const ArticleHeader = styled.header`
   }
   & h1, & section > span {
     color: #fff;
-    background: rgba(0,0,0,.2);
+    background: rgba(0,0,0,.4);
     display: inline-block;
     padding: 0 10px;
     margin-right: 10px;
@@ -40,8 +40,8 @@ const DesignArticleLayout = (article: IArticle, editMode: boolean) => {
             dangerouslySetInnerHTML={{__html: heading.value}}
           ></h1>
           <section>
-            <span>&copy; {author.value}</span>
-            <span>{dateObj.toLocaleString()}</span>
+            {author.value ? <span>&copy; {author.value}</span> : null}
+            {date.value ? <span>{new Date(date.value).toLocaleString()}</span> : null}
           </section>
         </ArticleInfo>
         <MainImage image={mainImage} />
