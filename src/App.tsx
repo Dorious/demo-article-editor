@@ -78,8 +78,6 @@ function App() {
   useEffect(() => {
     // Setup the router update
     if(!state.router) {
-      console.log('Setting up the router...');
-
       dispatch(updateRouter({...router}));
 
       router.listen(() => {
