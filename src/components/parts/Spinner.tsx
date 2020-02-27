@@ -19,7 +19,7 @@ export const SpinBallOpacity = keyframes`
 
 export const SpinBall = styled.i.attrs((props:any) => ({
   style: {
-    background: props.color || props.spinnerColor
+    background: props.color || props.theme.spinnerColor || '#008'
   }
 }))`
   display: block;

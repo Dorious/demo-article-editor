@@ -16,6 +16,7 @@ export interface IArticleProps {
 
 export const ArticleInfo = styled.section`
   position: absolute;
+  z-index: 3;
   min-width: 60%;
   background: ${(props: ThemeProps<ITheme>) => props.theme.paperBackground};
   padding: 10px 10px 10px 20px;
@@ -63,35 +64,39 @@ export const Article: React.FC<IArticleProps> = React.memo(({article, editMode})
         />
         <Button>Save</Button>
       </ArticleInfo> : null}
-      <article>
+      <article data-testid="mainArticle">
         {getLayout(selectedLayouts)(article, editMode)}
       </article>
     </>
   )
 });
 
-const Paper = styled.div`
-  background: ${(props: ThemeProps<ITheme>) => props.theme.paperBackground};
-  box-shadow: 0 10px 30px rgba(0,0,0,.15);
-  padding: 30px 30px 150px 30px;
-  position: relative;
-  transition: margin-top 0.25s linear;
+const DEFAULT_BG = '#fff';
 
-  ::after {
-    content: ' ';
-    position: absolute;
-    z-index: 2;
-    bottom: -50px;
-    left: -30px; 
-    right: -30px;
-    height: 150px;
-    background: linear-gradient(
-      0deg, 
-      ${(props: ThemeProps<ITheme>) => hex2rgba(props.theme.bodyBackground)} 0%, 
-      ${(props: ThemeProps<ITheme>) => hex2rgba(props.theme.bodyBackground)} 40%, 
-      ${(props: ThemeProps<ITheme>) => hex2rgba(props.theme.bodyBackground, 0)} 100%
-    );
-  }
+const Paper = styled.div`
+  ${({theme}: ThemeProps<ITheme>) => `
+    background: ${theme.paperBackground || DEFAULT_BG};
+    box-shadow: 0 10px 30px rgba(0,0,0,.15);
+    padding: 30px 30px 150px 30px;
+    position: relative;
+    transition: margin-top 0.25s linear;
+
+    ::after {
+      content: ' ';
+      position: absolute;
+      z-index: 2;
+      bottom: -50px;
+      left: -30px; 
+      right: -30px;
+      height: 150px;
+      background: linear-gradient(
+        0deg,
+        ${hex2rgba(theme.bodyBackground || DEFAULT_BG)} 0%,
+        ${hex2rgba(theme.bodyBackground || DEFAULT_BG)} 40%, 
+        ${hex2rgba(theme.bodyBackground || DEFAULT_BG, 0)} 100%
+      );
+    }
+  `}
 `;
 
 const SpinnerContainer = styled.div`
@@ -118,11 +123,7 @@ const Editor: React.FC = () => {
     article, loadingArticle, editMode
   }] = useContext(AppContext);
 
-  const style = editMode ? {
-    marginTop: '100px'
-  } : {}
-
-  return <Paper style={style}>
+  return <Paper style={editMode ? {marginTop: '100px'} : {}}>
     {loadingArticle ? <SpinnerContainer>
       <div>
         <InfinitySpinner color="#008"/>
