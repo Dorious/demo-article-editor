@@ -17,12 +17,15 @@ export const SpinBallOpacity = keyframes`
   0% { opacity: 0.2; }
 `;
 
-export const SpinBall = styled.i`
+export const SpinBall = styled.i.attrs((props:any) => ({
+  style: {
+    background: props.color || props.spinnerColor
+  }
+}))`
   display: block;
   width: 46%;
   margin: 2%;
   height: 46%;
-  background: ${(props: any) => props.color || props.theme.spinnerColor};
   border-radius: 50%;
   animation: ${SpinBallOpacity} 1s infinite;
   animation-delay: ${() => Math.random()*0.5}s;
