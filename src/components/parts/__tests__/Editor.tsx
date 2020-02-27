@@ -27,7 +27,7 @@ describe('<Editor>', () => {
       </ThemeProvider>
     </AppProvider>);
 
-    expect(wrapper.getAllByText('Staffordshire Terrier Pups')).toBeInstanceOf(HTMLHeadingElement);
+    expect(wrapper.getByText('Staffordshire Terrier Pups')).toBeInstanceOf(HTMLHeadingElement);
     expect(wrapper.container).toBeInstanceOf(HTMLDivElement);
   });
 })
