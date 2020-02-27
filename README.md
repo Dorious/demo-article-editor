@@ -28,7 +28,7 @@ Most important stuff:
 src/
   components/
     layouts/      - All content layout related stuff.
-      elements/   - Render elements for specific Content-types.
+      elements/   - Render elements for specific content elements.
     parts/        - Parts of the application like top header etc.
   actions.ts      - Actions
   reducer.ts      - General reducer
